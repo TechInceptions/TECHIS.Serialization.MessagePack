@@ -154,7 +154,7 @@ namespace TECHIS.Serialization.MessagePack.Test
             for (int i = 0; i < serializationCount; i++)
             {
                 ids.Add(Guid.NewGuid());
-                UserSessionInfo userinfo = new UserSessionInfo {Key = ids[i], RoleMember = BuildRoleMember(ids[i]), UserID= i, UserName=userName };
+                UserSessionInfo userinfo = new UserSessionInfo {Key = ids[i], RoleMember = BuildRoleMember(ids[i]), UserID= i, UserName=userName, IgnoreThis = "<NIL>" };
                 AddDictionaries(userinfo, "key","a string", "intKey", int.MaxValue, "longKey", long.MinValue);
                 using (MemoryStream ms = new MemoryStream())
                 {
@@ -174,6 +174,8 @@ namespace TECHIS.Serialization.MessagePack.Test
 
             for (int i = 0; i < serializationCount; i++)
             {
+                Assert.IsTrue(members[i].NoSetter == nameof(UserSessionInfo));
+                Assert.IsTrue(members[i].IgnoreThis == null);
                 Assert.IsTrue(members[i].RoleMember.UserId == ids[i]);
                 Assert.IsTrue(members[i].Key == ids[i]);
                 Assert.IsTrue(members[i].StringValues["key"] == "a string");
