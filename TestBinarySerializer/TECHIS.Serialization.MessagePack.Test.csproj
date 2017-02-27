@@ -59,6 +59,7 @@
     <Compile Include="TestBinarySerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestTypes\UserSessionInfo.cs" />
+    <Compile Include="TestTypes\UserSessionInfoData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TECHIS.Serialization.MessagePack\TECHIS.Serialization.MessagePack.csproj">

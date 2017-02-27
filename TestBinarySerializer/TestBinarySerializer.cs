@@ -174,6 +174,7 @@ namespace TECHIS.Serialization.MessagePack.Test
 
             for (int i = 0; i < serializationCount; i++)
             {
+                Assert.IsTrue(members[i].RoleMember.UserId == ids[i]);
                 Assert.IsTrue(members[i].Key == ids[i]);
                 Assert.IsTrue(members[i].StringValues["key"] == "a string");
                 Assert.IsTrue(members[i].IntValues["intKey"] == int.MaxValue,       $"{members[i].IntValues["intKey"]} is not equal to {int.MaxValue}");
@@ -196,6 +197,7 @@ namespace TECHIS.Serialization.MessagePack.Test
         private static RoleMember BuildRoleMember(Guid id, int childCount = 2)
         {
             var rm = new RoleMember();
+            rm.UserId = id;
             rm.ApplicationId = id;
             rm.IsAnonymous = true;
             rm.LastActivityDate = DateTime.Now;
