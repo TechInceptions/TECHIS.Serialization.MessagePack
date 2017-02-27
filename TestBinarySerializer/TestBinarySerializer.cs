@@ -149,16 +149,17 @@ namespace TECHIS.Serialization.MessagePack.Test
             List<Guid> ids = new List<Guid>(serializationCount);
             List<byte[]> dataList = new List<byte[]>(serializationCount);
 
-            List<UserSessionInfo> members = new List<UserSessionInfo>(serializationCount);
+            List<List<UserSessionInfo>> members = new List<List<UserSessionInfo>>(serializationCount);
             string userName = "sample";
             for (int i = 0; i < serializationCount; i++)
             {
                 ids.Add(Guid.NewGuid());
                 UserSessionInfo userinfo = new UserSessionInfo {Key = ids[i], RoleMember = BuildRoleMember(ids[i]), UserID= i, UserName=userName, IgnoreThis = "<NIL>" };
                 AddDictionaries(userinfo, "key","a string", "intKey", int.MaxValue, "longKey", long.MinValue);
+                List<UserSessionInfo> uis = new List<UserSessionInfo> { userinfo };
                 using (MemoryStream ms = new MemoryStream())
                 {
-                    bs.Serialize(userinfo, ms);
+                    bs.Serialize(uis, ms);
                     dataList.Add(ms.ToArray());
                 }
 
@@ -167,20 +168,20 @@ namespace TECHIS.Serialization.MessagePack.Test
             {
                 using (MemoryStream ms = new MemoryStream(dataList[i]))
                 {
-                    members.Add(bs.Deserialize<UserSessionInfo>(ms));
+                    members.Add(bs.Deserialize<List<UserSessionInfo>>(ms));
                 }
             }
 
 
             for (int i = 0; i < serializationCount; i++)
             {
-                Assert.IsTrue(members[i].NoSetter == nameof(UserSessionInfo));
-                Assert.IsTrue(members[i].IgnoreThis == null);
-                Assert.IsTrue(members[i].RoleMember.UserId == ids[i]);
-                Assert.IsTrue(members[i].Key == ids[i]);
-                Assert.IsTrue(members[i].StringValues["key"] == "a string");
-                Assert.IsTrue(members[i].IntValues["intKey"] == int.MaxValue,       $"{members[i].IntValues["intKey"]} is not equal to {int.MaxValue}");
-                Assert.IsTrue(members[i].LongValues["longKey"] == long.MinValue,    $"{members[i].LongValues["longKey"]} is not equal to {long.MinValue}");
+                Assert.IsTrue(members[i][0].NoSetter == nameof(UserSessionInfo));
+                Assert.IsTrue(members[i][0].IgnoreThis == null);
+                Assert.IsTrue(members[i][0].RoleMember.UserId == ids[i]);
+                Assert.IsTrue(members[i][0].Key == ids[i]);
+                Assert.IsTrue(members[i][0].StringValues["key"] == "a string");
+                Assert.IsTrue(members[i][0].IntValues["intKey"] == int.MaxValue,       $"{members[i][0].IntValues["intKey"]} is not equal to {int.MaxValue}");
+                Assert.IsTrue(members[i][0].LongValues["longKey"] == long.MinValue,    $"{members[i][0].LongValues["longKey"]} is not equal to {long.MinValue}");
             }
 
         }
