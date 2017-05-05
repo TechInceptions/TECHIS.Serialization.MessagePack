@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TECHIS.Serialization.MessagePack")]
-[assembly: AssemblyDescription("MessagePack implementation if TECHIS.Serialization.Absractions.IBinarySerialization")]
+[assembly: AssemblyDescription("MessagePack implementation if TECHIS.Serialization.Abstractions.IBinarySerialization")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("TECH-IS")]
 [assembly: AssemblyProduct("TECHIS.Serialization.MessagePack")]
