@@ -6,7 +6,7 @@ using MsgPack.Serialization;
 
 namespace TECHIS.Serialization.MessagePack
 {
-    public class BinarySerializer : TECHIS.Serialization.Absractions.ISerializer
+    public class BinarySerializer : TECHIS.Serialization.Abstractions.ISerializer
     {
         ConcurrentDictionary<string, object> _Serializers = new ConcurrentDictionary<string, object>();
 
