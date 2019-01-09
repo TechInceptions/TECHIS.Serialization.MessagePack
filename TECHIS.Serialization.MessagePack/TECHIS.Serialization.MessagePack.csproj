@@ -6,11 +6,18 @@
     <FileVersion>1.0.0.0</FileVersion>
     <PackageReleaseNotes>Upgrade to .NET Standard from  0.1.2</PackageReleaseNotes>
     <Version>1.0.0.0-preview</Version>
+    <Description>MessagePack implementation of TECHIS.Serialization.Abstractions.ISerializer</Description>
+    <Authors>Arinze,TECH-IS</Authors>
+    <Copyright>Copyright © TECH-IS INC. 2017</Copyright>
+    <PackageProjectUrl>https://github.com/TechInceptions/TECHIS.Serialization.MessagePack</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/TechInceptions/TECHIS.Serialization.MessagePack</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>C:\Data\PackageRepo</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MsgPack.Cli" Version="1.0.0" />
-    <PackageReference Include="TECHIS.Serialization.Abstractions" Version="0.2.3" />
+    <PackageReference Include="TECHIS.Serialization.Abstractions" Version="0.2.4" />
   </ItemGroup>
 
 </Project>
