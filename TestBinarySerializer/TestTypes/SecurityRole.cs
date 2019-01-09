@@ -23,7 +23,7 @@ namespace TECHIS.EndApps.AppModel.Business
         private String _LoweredRoleName;
         private String _Description;
         private Int32 _ApplicationRegisterId;
-        private List<TECHIS.EndApps.AppModel.Business.RoleMember> _RoleMemberList;
+        //private List<TECHIS.EndApps.AppModel.Business.RoleMember> _RoleMemberList;
 
         #endregion 
 
