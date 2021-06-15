@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using TECHIS.EndApps.AppModel.Business;
+using System.Threading.Tasks;
 
 namespace TECHIS.Serialization.MessagePack.Test
 {
-    [TestClass]
+
     public class TestBinarySerializer
     {
         private BinarySerializer _BinarySerializer;
 
 
-        [TestMethod]
+        [Fact]
         public void Serialize()
         {
             var bs = GetSerializer();
@@ -27,12 +28,12 @@ namespace TECHIS.Serialization.MessagePack.Test
                 using (MemoryStream ms = new MemoryStream())
                 {
                     bs.Serialize(rm, ms);
-                    Assert.IsTrue(ms.Length > 0);
+                    Assert.True(ms.Length > 0);
                 }
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void DeSerialize()
         {
             var bs = GetSerializer();
@@ -80,13 +81,13 @@ namespace TECHIS.Serialization.MessagePack.Test
 
             for (int i = 0; i < serializationCount; i++)
             {
-                Assert.IsTrue(members[i].ApplicationId == ids[i]);
-                Assert.IsTrue(members[i].SecurityRoleList.Count == childCount);
+                Assert.True(members[i].ApplicationId == ids[i]);
+                Assert.True(members[i].SecurityRoleList.Count == childCount);
             }
 
         }
-        [TestMethod]
-        public void DeSerializeAsync()
+        [Fact]
+        public async Task DeSerializeAsync()
         {
             var bs = GetSerializer();
 
@@ -112,7 +113,7 @@ namespace TECHIS.Serialization.MessagePack.Test
                 SecurityRole sr = BuildSecurityRole(Guid.NewGuid());
                 using (MemoryStream ms = new MemoryStream())
                 {
-                    bs.SerializeAsync(sr, ms).Wait();
+                    await bs.SerializeAsync(sr, ms);
                     dataList2.Add(ms.ToArray());
                 }
 
@@ -121,25 +122,25 @@ namespace TECHIS.Serialization.MessagePack.Test
             {
                 using (MemoryStream ms = new MemoryStream(dataList[i]))
                 {
-                    members.Add(bs.DeserializeAsync<RoleMember>(ms).Result);
+                    members.Add(await bs.DeserializeAsync<RoleMember>(ms) );
                 }
 
                 using (MemoryStream ms = new MemoryStream(dataList2[i]))
                 {
-                    roles.Add(bs.DeserializeAsync<SecurityRole>(ms).Result);
+                    roles.Add(await bs.DeserializeAsync<SecurityRole>(ms) );
                 }
             }
 
 
             for (int i = 0; i < serializationCount; i++)
             {
-                Assert.IsTrue(members[i].ApplicationId == ids[i]);
-                Assert.IsTrue(members[i].SecurityRoleList.Count == childCount);
+                Assert.True(members[i].ApplicationId == ids[i]);
+                Assert.True(members[i].SecurityRoleList.Count == childCount);
             }
 
         }
 
-        [TestMethod]
+        [Fact]
         public void DeSerializeDictionary()
         {
             var bs = GetSerializer();
@@ -175,13 +176,13 @@ namespace TECHIS.Serialization.MessagePack.Test
 
             for (int i = 0; i < serializationCount; i++)
             {
-                Assert.IsTrue(members[i][0].NoSetter == nameof(UserSessionInfo));
-                Assert.IsTrue(members[i][0].IgnoreThis == null);
-                Assert.IsTrue(members[i][0].RoleMember.UserId == ids[i]);
-                Assert.IsTrue(members[i][0].Key == ids[i]);
-                Assert.IsTrue(members[i][0].StringValues["key"] == "a string");
-                Assert.IsTrue(members[i][0].IntValues["intKey"] == int.MaxValue,       $"{members[i][0].IntValues["intKey"]} is not equal to {int.MaxValue}");
-                Assert.IsTrue(members[i][0].LongValues["longKey"] == long.MinValue,    $"{members[i][0].LongValues["longKey"]} is not equal to {long.MinValue}");
+                Assert.True(members[i][0].NoSetter == nameof(UserSessionInfo));
+                Assert.True(members[i][0].IgnoreThis == null);
+                Assert.True(members[i][0].RoleMember.UserId == ids[i]);
+                Assert.True(members[i][0].Key == ids[i]);
+                Assert.True(members[i][0].StringValues["key"] == "a string");
+                Assert.True(members[i][0].IntValues["intKey"] == int.MaxValue,       $"{members[i][0].IntValues["intKey"]} is not equal to {int.MaxValue}");
+                Assert.True(members[i][0].LongValues["longKey"] == long.MinValue,    $"{members[i][0].LongValues["longKey"]} is not equal to {long.MinValue}");
             }
 
         }
@@ -227,10 +228,12 @@ namespace TECHIS.Serialization.MessagePack.Test
 
         private static SecurityRole BuildSecurityRole(Guid id)
         {
-            var sr = new SecurityRole();
-            sr.ApplicationId = id;
-            sr.ApplicationRegisterId = int.MaxValue;
-            sr.RoleName = $"Test: {DateTime.Now.ToLongTimeString()}";
+            var sr = new SecurityRole
+            {
+                ApplicationId = id,
+                ApplicationRegisterId = int.MaxValue,
+                RoleName = $"Test: {DateTime.Now.ToLongTimeString()}"
+            };
 
             return sr;
         }

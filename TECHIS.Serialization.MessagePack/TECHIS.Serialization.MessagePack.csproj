@@ -16,7 +16,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MsgPack.Cli" Version="1.0.0" />
+    <!--<PackageReference Include="MsgPack.Cli" Version="1.0.1" />-->
+    <PackageReference Include="MessagePack" Version="2.2.85" />
     <PackageReference Include="TECHIS.Serialization.Abstractions" Version="0.2.4" />
   </ItemGroup>
 
