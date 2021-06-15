@@ -137,7 +137,11 @@ namespace TECHIS.EndApps.AppModel.Business
             {
                 return _SecurityRoleList;
             }
-            
+            set
+            {
+                _SecurityRoleList = value;
+            }
+
         }
 
         #endregion
