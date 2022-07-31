@@ -38,6 +38,14 @@ namespace TECHIS.Serialization.MessagePack
 
         private readonly MessagePackSerializerOptions _SerializerOptions = ContractlessStandardResolver.Options;
 
+        public int SuggestedMemorySize { get; } = 0;
+        public BinarySerializer() { }
+        public BinarySerializer(int suggestedMemorySize)
+        {
+            SuggestedMemorySize = suggestedMemorySize;
+            _SerializerOptions = ContractlessStandardResolver.Options.WithSuggestedContiguousMemorySize(suggestedMemorySize);
+        }
+
         public T Deserialize<T>(Stream stream)
         {
             return MessagePackSerializer.Deserialize<T>(stream, _SerializerOptions);
